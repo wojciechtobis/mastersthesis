@@ -16,7 +16,7 @@ typedef struct State
 } State;
 
 void simulation();
-void RK4(State x[], float u[], float* t, float dtau[], int n[], int cn[], State x_zad, float P);
+void RK4(State x[], float u[], float* t, float dtau[], int n[], int cn[], State x0, float P);
 State rhs(State x, float u);
 State add_states(State s1, State s2);
 

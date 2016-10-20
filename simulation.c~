@@ -118,7 +118,7 @@ State rhs(State x, float u)
 	State dx;
 	
 	dx.x1 = x.x2;
-	dx.x2 = -1.25*x.x2 + 1.3625*u;
+	dx.x1 = -1.25*x.x2 + 1.3625*u;
 	
 	return dx;
 } 
