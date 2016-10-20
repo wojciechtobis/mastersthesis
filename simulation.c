@@ -1,9 +1,5 @@
 #include "simulation.h"
 
-#define N 100
-#define T 10
-#define h0 0.01
-
 int main()
 {
 	printf("Hello world\n");
@@ -60,33 +56,31 @@ void simulation()
 
 	int x_size = cn[N];
 
-	float* x1 = (float*)malloc(sizeof(float)*x_size);
-	float* x2 = (float*)malloc(sizeof(float)*x_size);
+	struct State* x = (struct State*)malloc(sizeof(struct State)*x_size);
 	float* t = (float*)malloc(sizeof(float)*x_size);
-	for(i=0;i<x_size;++i)
-	{
-		x1[i] = 0.0;
-		x2[i] = 0.0;
-		t[i] = 0.0;
-	}
+
+	struct State x0;
+	x0.x1 = 0.0;
+	x0.x2 = 0.0;
 
 	float u[N];
 	for(i=0;i<N;++i)
 		u[i] = 0.0;
 	
 
-	for(i=0;i<N;++i)
-		printf("%.2f,\t%.2f,\t%d,\n",tau[i],dtau[i],cn[i+1]);
+	//for(i=0;i<N;++i)
+		//printf("%.2f,\t%.2f,\t%d,\n",tau[i],dtau[i],cn[i+1]);
 
-	RK4(x1,x2,u,t,dtau,n,cn,1,1,1);
+	RK4(x,u,t,dtau,n,cn,x0,1);
 
-	free(x1);
-	free(x2);
+	free(x);
 	free(t);
+	
+	printf("Hello world2\n");
+	
 }
 
-//[x,t,u] = RK4(x,u,t,dtau,n,cn,x_zad,reg);
-void RK4(float* x1, float* x2, float u[], float* t, float dtau[], int n[], int cn[], float x_zad1, float x_zad2, float P)
+void RK4(struct State x[], float u[], float* t, float dtau[], int n[], int cn[], struct State x0, float P)
 {
 	/*for j=1:length(n)
    h = dtau(j)/n(j);
@@ -111,7 +105,7 @@ end*/
 
 	int i,j;
 	float h,h2,h3,h6;
-	float dx1[2],dx2[2],dx3[2],dx4[2];
+	struct State dx1,dx2,dx3,dx4,x1,x2,x3;
 
 	for(j=0;j<N;++j)
 	{
@@ -120,11 +114,21 @@ end*/
 		h3 = h/3;
 		h6 = h/6;
 
-		u[j] = -P*(x1[cn[j]]-x_zad1);
+		u[j] = -P*(x[cn[j]].x1-x0.x1);
 
 		for(i=cn[j];i<(cn[j+1]-1);++i)
 		{
-			dx1 = rhs(1,2);
+			dx1 = rhs(x[i],u[j]);
+			x1.x1 = x[i].x1 + h2*dx1.x1;
+			x1.x2 = x[i].x2 + h2*dx1.x2;
+			dx2 = rhs(x1,u[j]);
+			x2.x1 = x[i].x1 + h2*dx2.x1;
+			x2.x2 = x[i].x2 + h2*dx2.x2;
+			dx3 = rhs(x2,u[j]);
+			x3.x1 = x[i].x1 + h*dx3.x1;
+			x3.x2 = x[i].x2 + h*dx3.x2;
+			dx4 = rhs(x3,u[j]);
+			
 		}
 
 	}
@@ -132,12 +136,14 @@ end*/
 
 }
 
-float* rhs(float x1, float x2)
+struct State rhs(struct State x, float u)
 {
-
-	float temp[2] = {x1,x2};
-
-	return temp;
+	struct State dx;
+	
+	dx.x1 = x.x2;
+	dx.x1 = x.x2 + u;
+	
+	return dx;
 } 
 
 
