@@ -5,8 +5,7 @@
 #include <time.h>
 #include <string.h>
 
-void getDate(char* date);
-void getStatesFileName(char* filename);
+void getDate(char * date);
 void printStates(const State* x,int x_size,float* t);
 
 #endif
