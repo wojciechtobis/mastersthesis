@@ -15,10 +15,17 @@ typedef struct State
 	float x2;
 } State;
 
+typedef struct Controller
+{
+	float P;
+	float I;
+	float D;
+} Controller;
+
 void simulation();
-void RK4(State x[], float u[], float* t, float dtau[], int n[], int cn[], State x_zad, float P);
+void RK4(State x[], float u[], float* t, float dtau[], int n[], int cn[], State x_zad, Controller PID);
 State rhs(State x, float u);
-State add_states(State s1, State s2);
-State multiply_states(State s1, float s2);
+State add_states(const State s1, const State s2);
+State multiply_states(const State s1, float s2);
 
 #endif
