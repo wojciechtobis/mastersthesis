@@ -1,8 +1,0 @@
-#ifndef report_h
-#define report_h
-
-#include"simulation.h"
-
-void printStates(State* x,int x_size,float* t);
-
-#endif
