@@ -11,7 +11,7 @@
 
 int main()
 {
-	int i,j,j_best;
+	int j,j_best;
     	long long populacja[MAX_POP],global_best;
     	float roulette_val[MAX_POP],fitness_val[MAX_POP],fitness_sum,fitness_sum_best=1000.0;
     	srand(time(NULL));
