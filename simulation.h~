@@ -22,7 +22,7 @@ typedef struct Controller
 	float D;
 } Controller;
 
-void simulation(Controller PID);
+void simulation();
 void RK4(State x[], float u[], float* t, float dtau[], int n[], int cn[], State x_zad, Controller PID);
 State rhs(const State x, float u);
 State add_states(const State s1, const State s2);

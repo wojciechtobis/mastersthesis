@@ -57,12 +57,36 @@ void simulation(Controller PID)
 	for(i=0;i<N;++i)
 		u[i] = 0.0;
 	
+	FILE *fpt;
+	fpt = fopen("test.txt","r");
 	RK4(x,u,t,dtau,n,cn,x0,PID);
+
+	
+	
+	printf("Hello world2 %lf\n%lf\n\n",x[0].x1,x[0].x1);
 
 	printStates(x,x_size,t);
 
+	
+
+	printStates2(x,x_size,t,fpt);
+
+	fclose(fpt);
+	for(i=0;i<10;++i)
+	{
+		//printf("Hello world2 %lf\n%lf\n\n",x[9].x1,x[10].x1);
+		printf("%lf\t%lf\n",x[0].x1,x[0].x2);
+	}
+
+	/*for(i=0;i<N;++i)
+	{
+		printf("%f\t\n",u[i]);
+	}*/
+
+
 	free(x);
 	free(t);
+
 	
 }
 
