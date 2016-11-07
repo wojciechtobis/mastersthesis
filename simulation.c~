@@ -1,21 +1,27 @@
 #include "simulation.h"
 #include "report.h"
 
-/*int main()
+int main()
 {
 	printf("Hello world\n");
 
-	Controller PID;
+	ControllerPID PID;
 	PID.P = 1.0;
 	PID.I = 0.0;
 	PID.D = 0.0;
 
-	simulation(PID);
+	ControllerLQR LQR;
+	LQR.k1 = 1.0;
+	LQR.k2 = 1.0;
+
+
+	//simulation_PID(PID);
+	simulation_LQR(LQR);
 
 	return 0;
-}*/
+}
 
-void simulation(ControllerPID PID)
+void simulation_PID(ControllerPID PID)
 {
 	int i;
 	float temp = 1.0*T/N;
@@ -58,6 +64,57 @@ void simulation(ControllerPID PID)
 		u[i] = 0.0;
 	
 	RK4_PID(x,u,t,dtau,n,cn,x0,PID);
+
+	printStates(x,x_size,t);
+
+	free(x);
+	free(t);
+	
+}
+
+void simulation_LQR(ControllerPID PID)
+{
+	int i;
+	float temp = 1.0*T/N;
+
+	float tau[N+1];
+
+	for(i=0;i<N+1;++i)
+		tau[i] = temp*i;
+
+	float dtau[N];
+	for(i=0;i<N;++i)
+		dtau[i] = tau[i+1]-tau[i];
+	
+	int n[N];
+	for(i=0;i<N;++i)
+		n[i] = (int)ceil(dtau[i]/h0);
+
+	int cn[N+1];
+	cn[0]=0;
+	for(i=0;i<N;++i)
+		cn[i+1] = cn[i]+n[i];
+
+	int x_size = cn[N];
+
+	State* x = (State*)malloc(sizeof(State)*x_size);
+	float* t = (float*)malloc(sizeof(float)*x_size);
+	
+	t[0] = 0;
+
+	x[0].x1 = 0.0;
+	x[0].x2 = 0.0;
+
+	State x0;
+	x0.x1 = 5.0;
+	x0.x2 = 0.0;
+
+	
+	float u[N];
+	for(i=0;i<N;++i)
+		u[i] = 0.0;
+	
+	RK4_LQR(x,u,t,dtau,n,cn,x0,LQR);
 
 	printStates(x,x_size,t);
 

@@ -3,12 +3,11 @@
 #include "optim_problem.h"
 #include "report.h"
 #include "simulation.h"
-#include "selection.h"
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
 
-#define MAX_POP 100
+#define MAX_POP 200
 #define MUT_PROB 40
 
 int main()
@@ -20,7 +19,7 @@ int main()
 	init_population(populacja,MAX_POP);
 	global_best = populacja[0];
 
-	for(j=0, j_best=0 ; j<100 && (j<=j_best+100) ; ++j)
+	for(j=0, j_best=0 ; j<200 && (j<=j_best+100) ; ++j)
 	{
 	    	roulette(populacja,roulette_val,MAX_POP);
 

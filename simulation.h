@@ -28,7 +28,8 @@ typedef struct ControllerLQR
 	float k2;
 } ControllerLQR;
 
-void simulation(ControllerPID PID);
+void simulation_PID(ControllerPID PID);
+void simulation_LQR(ControllerLQR LQR);
 void RK4_PID(State x[], float u[], float* t, float dtau[], int n[], int cn[], State x_zad, ControllerPID PID);
 void RK4_LQR(State x[], float u[], float* t, float dtau[], int n[], int cn[], State x_zad, ControllerLQR LQR);
 State rhs(const State x, float u);
