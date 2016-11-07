@@ -36,6 +36,15 @@ void getStatesFileName(char* filename)
 	strcat(filename,".txt");
 }
 
+void getPopulationsFileName(char* filename)
+{
+	char date[20];	
+	strcpy(filename,"Populations: ");
+	getDate(date);
+	strcat(filename,date);
+	strcat(filename,".txt");
+}
+
 long long printPopulation(const long long population[],const float fitness_val[],int population_size, int population_number,long long global_best)
 {
 	int i,i_best=population_size+1;	
@@ -68,6 +77,7 @@ long long printPopulation(const long long population[],const float fitness_val[]
 	printf("%hu\t->\t%.4f\n",x,x1);
 	printf("%hu\t->\t%.4f\n",y,y1);
 	printf("fitness value: %.15f\n",fitness_val[i_best]);
+	printf("fittness sum: %.15f\n",fitness_sum);
 
 	if(fitness_func(global_best)>fitness_val[i_best])
 	{

@@ -1,7 +1,7 @@
 #include "simulation.h"
 #include "report.h"
 
-int main()
+/*int main()
 {
 	printf("Hello world\n");
 
@@ -13,9 +13,9 @@ int main()
 	simulation(PID);
 
 	return 0;
-}
+}*/
 
-void simulation(Controller PID)
+void simulation(ControllerPID PID)
 {
 	int i;
 	float temp = 1.0*T/N;
@@ -57,40 +57,16 @@ void simulation(Controller PID)
 	for(i=0;i<N;++i)
 		u[i] = 0.0;
 	
-	FILE *fpt;
-	fpt = fopen("test.txt","r");
-	RK4(x,u,t,dtau,n,cn,x0,PID);
-
-	
-	
-	printf("Hello world2 %lf\n%lf\n\n",x[0].x1,x[0].x1);
+	RK4_PID(x,u,t,dtau,n,cn,x0,PID);
 
 	printStates(x,x_size,t);
 
-	
-
-	printStates2(x,x_size,t,fpt);
-
-	fclose(fpt);
-	for(i=0;i<10;++i)
-	{
-		//printf("Hello world2 %lf\n%lf\n\n",x[9].x1,x[10].x1);
-		printf("%lf\t%lf\n",x[0].x1,x[0].x2);
-	}
-
-	/*for(i=0;i<N;++i)
-	{
-		printf("%f\t\n",u[i]);
-	}*/
-
-
 	free(x);
 	free(t);
-
 	
 }
 
-void RK4(State x[], float u[], float* t, float dtau[], int n[], int cn[], State x_zad, Controller PID)
+void RK4_PID(State x[], float u[], float* t, float dtau[], int n[], int cn[], State x_zad, ControllerPID PID)
 {
 	int i,j;
 	float h,h2,h3,h6;
@@ -104,6 +80,45 @@ void RK4(State x[], float u[], float* t, float dtau[], int n[], int cn[], State 
 		h6 = h/6;
 
 		u[j] = -PID.P*(x[cn[j]-1].x1-x_zad.x1);
+
+		for(i=cn[j]-1;i<(cn[j+1]-1);++i)
+		{
+			dx1 = rhs(x[i],u[j]);
+			x1 = add_states(x[i],multiply_states(dx1,h2));
+			dx2 = rhs(x1,u[j]);
+			//x2.x1 = x[i].x1 + h2*dx2.x1;
+			//x2.x2 = x[i].x2 + h2*dx2.x2;
+			x2 = add_states(x[i],multiply_states(dx2,h2));
+			dx3 = rhs(x2,u[j]);
+			//x3.x1 = x[i].x1 + h*dx3.x1;
+			//x3.x2 = x[i].x2 + h*dx3.x2;
+			x3 = add_states(x[i],multiply_states(dx3,h));
+			dx4 = rhs(x3,u[j]);
+			
+			x[i+1].x1 = x[i].x1 + h3*(dx2.x1+dx3.x1) + h6*(dx1.x1+dx4.x1);
+			x[i+1].x2 = x[i].x2 + h3*(dx2.x2+dx3.x2) + h6*(dx1.x2+dx4.x2);
+
+			t[i+1] = t[i] + h;
+		}
+	}
+
+
+}
+
+void RK4_LQR(State x[], float u[], float* t, float dtau[], int n[], int cn[], State x_zad, ControllerLQR LQR)
+{
+	int i,j;
+	float h,h2,h3,h6;
+	State dx1,dx2,dx3,dx4,x1,x2,x3;
+
+	for(j=0;j<N;++j)
+	{
+		h = dtau[j]/n[j];
+		h2 = h/2;
+		h3 = h/3;
+		h6 = h/6;
+
+		u[j] = -LQR.k1*(x[cn[j]-1].x1-x_zad.x1) - LQR.k2*(x[cn[j]-1].x2-x_zad.x2);
 
 		for(i=cn[j]-1;i<(cn[j+1]-1);++i)
 		{

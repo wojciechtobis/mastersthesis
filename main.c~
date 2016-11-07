@@ -2,6 +2,8 @@
 #include "genetic_algorithm.h"
 #include "optim_problem.h"
 #include "report.h"
+#include "simulation.h"
+#include "selection.h"
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
@@ -11,7 +13,7 @@
 
 int main()
 {
-	int j,j_best;
+	int i,j,j_best;
     	long long populacja[MAX_POP],global_best;
     	float roulette_val[MAX_POP],fitness_val[MAX_POP],fitness_sum,fitness_sum_best=1000.0;
     	srand(time(NULL));

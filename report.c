@@ -36,6 +36,15 @@ void getStatesFileName(char* filename)
 	strcat(filename,".txt");
 }
 
+void getPopulationsFileName(char* filename)
+{
+	char date[20];	
+	strcpy(filename,"Populations: ");
+	getDate(date);
+	strcat(filename,date);
+	strcat(filename,".txt");
+}
+
 long long printPopulation(const long long population[],const float fitness_val[],int population_size, int population_number,long long global_best)
 {
 	int i,i_best=population_size+1;	

@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <time.h>
 
-/*float fitness_func(short x)
+float fitness_func(short x)
 {
 	return 8.0*(x-5.3)*(x-5.3);
-}*/
+}
 
 void bubblesort(float table[], short table2[], int size)
 {

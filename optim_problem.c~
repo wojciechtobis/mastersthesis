@@ -6,6 +6,7 @@
 
 float fitness_func(long long x)
 {
+	//return 8.0*(x-5.3)*(x-5.3);
 	short x1,y1;
 	float x_1,y_1;
 	

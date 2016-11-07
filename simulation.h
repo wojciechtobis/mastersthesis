@@ -15,15 +15,22 @@ typedef struct State
 	float x2;
 } State;
 
-typedef struct Controller
+typedef struct ControllerPID
 {
 	float P;
 	float I;
 	float D;
-} Controller;
+} ControllerPID;
 
-void simulation(Controller PID);
-void RK4(State x[], float u[], float* t, float dtau[], int n[], int cn[], State x_zad, Controller PID);
+typedef struct ControllerLQR
+{
+	float k1;
+	float k2;
+} ControllerLQR;
+
+void simulation(ControllerPID PID);
+void RK4_PID(State x[], float u[], float* t, float dtau[], int n[], int cn[], State x_zad, ControllerPID PID);
+void RK4_LQR(State x[], float u[], float* t, float dtau[], int n[], int cn[], State x_zad, ControllerLQR LQR);
 State rhs(const State x, float u);
 State add_states(const State s1, const State s2);
 State multiply_states(const State s1, float s2);

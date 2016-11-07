@@ -2,6 +2,7 @@
 #include "genetic_algorithm.h"
 #include "optim_problem.h"
 #include "report.h"
+#include "simulation.h"
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
