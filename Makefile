@@ -6,7 +6,7 @@ LOADER = gcc
 
 # opcje optymalizacji:
 # wersja do debugowania
-OPT = -g -DDEBUG
+OPT = -g -DDEBUG -Wall
 # wersja zoptymalizowana do mierzenia czasu
 # OPT = -O3
 
@@ -20,8 +20,8 @@ LIB = -lm
 main2: main.o genetic_algorithm.o optim_problem2.o report.o 
 	$(LOADER) $(OPT) main.o genetic_algorithm.o optim_problem2.o report.o -o main $(LIB)
 
-main1: main.o genetic_algorithm.o optim_problem.o report.o 
-	$(LOADER) $(OPT) main.o genetic_algorithm.o optim_problem.o report.o -o main $(LIB)
+main1: main.o genetic_algorithm.o optim_problem.o report.o simulation.o
+	$(LOADER) $(OPT) main.o genetic_algorithm.o optim_problem.o report.o simulation.o -o main $(LIB)
 
 main.o: main.c
 	$(CCOMP) -c $(OPT) main.c $(INC) 

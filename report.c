@@ -102,22 +102,23 @@ void getPopulationsFileName(char* filename)
 	return global_best;
 }*/
 
+
 long long printPopulation(const long long population[],const float fitness_val[],int population_size, int population_number,long long global_best)
 {
-	int i,i_best=population_size+1;	
+	int i,i_best=0;	
 	short x,y;
-	float x1,y1,fitness_sum=0.0,fitness_best=1000.0;
+	float x1,y1,fitness_sum=0.0,fitness_best=fitness_val[0];
 
 	printf("Popation number: %d\n",population_number);
-	printf("%10s%10s%15s%15s%25s\n","x","y","x1","y1","fitness");
+	printf("%10s%10s%15s%15s%57s\n","x","y","x1","y1","fitness");
 	for(i=0 ; i<population_size ; ++i)
     	{
 
 		decode(population[i],&x,&y);
-		x1 = (1.0*x/(1 << (SHORT_BITS-1)))*(X_MAX-X_MIN) + X_MIN;
-		y1 = (1.0*y/(1 << (SHORT_BITS-1)))*(Y_MAX-Y_MIN) + Y_MIN;
+		x1 = (1.0*(unsigned short)x/(1 << (SHORT_BITS)))*(X_MAX-X_MIN) + X_MIN;
+		y1 = (1.0*(unsigned short)y/(1 << (SHORT_BITS-1)))*(Y_MAX-Y_MIN) + Y_MIN;
     	//printf("(%hi,%hi) ",x,y);
-		printf("%10hu%10hu%15.4f%15.4f%25.15f\n",x,y,x1,y1,fitness_val[i]);
+		printf("%10llu%10hu%10hu%15.4f%15.4f%57.15f\n",population[i],x,y,x1,y1,fitness_val[i]);
 		fitness_sum += fitness_val[i];
 		if(fitness_val[i]<fitness_best)
 		{
@@ -127,8 +128,8 @@ long long printPopulation(const long long population[],const float fitness_val[]
     	}
 
 	decode(population[i_best],&x,&y);
-	x1 = (1.0*x/(1 << (SHORT_BITS-1)))*(X_MAX-X_MIN) + X_MIN;
-	y1 = (1.0*y/(1 << (SHORT_BITS-1)))*(Y_MAX-Y_MIN) + Y_MIN;
+	x1 = (1.0*(unsigned short)x/(1 << (SHORT_BITS)))*(X_MAX-X_MIN) + X_MIN;
+	y1 = (1.0*(unsigned short)y/(1 << (SHORT_BITS-1)))*(Y_MAX-Y_MIN) + Y_MIN;
 
 	printf("\nBest in population:\n");
 	printf("%hu\t->\t%.4f\n",x,x1);
@@ -142,8 +143,8 @@ long long printPopulation(const long long population[],const float fitness_val[]
 	}
 
 	decode(global_best,&x,&y);
-	x1 = (1.0*x/(1 << (SHORT_BITS-1)))*(X_MAX-X_MIN) + X_MIN;
-	y1 = (1.0*y/(1 << (SHORT_BITS-1)))*(Y_MAX-Y_MIN) + Y_MIN;
+	x1 = (1.0*(unsigned short)x/(1 << (SHORT_BITS)))*(X_MAX-X_MIN) + X_MIN;
+	y1 = (1.0*(unsigned short)y/(1 << (SHORT_BITS-1)))*(Y_MAX-Y_MIN) + Y_MIN;
 
 	printf("\nGlobal best:\n");
 	printf("%hu\t->\t%.4f\n",x,x1);

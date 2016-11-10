@@ -1,7 +1,10 @@
 #include "simulation.h"
 #include "report.h"
+#include <float.h>
+#include <math.h>
 
-int main()
+
+/*int main()
 {
 	printf("Hello world\n");
 
@@ -14,14 +17,16 @@ int main()
 	LQR.k1 = 1.0;
 	LQR.k2 = 1.0;
 
-
+	
 	//simulation_PID(PID);
-	simulation_LQR(LQR);
+	float sim_val = simulation_LQR(LQR);
+
+	printf("Val = %f\n",sim_val);
 
 	return 0;
-}
+}*/
 
-void simulation_PID(ControllerPID PID)
+float simulation_PID(ControllerPID PID)
 {
 	int i;
 	float temp = 1.0*T/N;
@@ -69,10 +74,12 @@ void simulation_PID(ControllerPID PID)
 
 	free(x);
 	free(t);
+
+	return fit_func(x,u,x0,x_size,N);
 	
 }
 
-void simulation_LQR(ControllerPID PID)
+float simulation_LQR(ControllerLQR LQR)
 {
 	int i;
 	float temp = 1.0*T/N;
@@ -116,10 +123,12 @@ void simulation_LQR(ControllerPID PID)
 	
 	RK4_LQR(x,u,t,dtau,n,cn,x0,LQR);
 
-	printStates(x,x_size,t);
+	//printStates(x,x_size,t);
 
 	free(x);
 	free(t);
+
+	return fit_func(x,u,x0,x_size,N);
 	
 }
 
@@ -228,3 +237,24 @@ State multiply_states(const State s1, float s2)
 
 	return result;
 }
+
+float fit_func(State x[], float u[], State x_zad, int x_size, int u_size)
+{
+	int i;
+	float sum = 0.0;
+	for(i=0 ; i<x_size ; ++i)
+	{
+		sum = sum + h0*((x[i].x1-x_zad.x1)*(x[i].x1-x_zad.x1) + (x[i].x2-x_zad.x2)*(x[i].x2-x_zad.x2));
+		if(sum==INFINITY || sum==NAN)
+			return FLT_MAX;
+	}
+	
+	for(i=0 ; i<u_size ; ++i)
+	{
+		sum = sum + u[i]*u[i];
+	}
+
+	return sum;
+
+}
+

@@ -7,23 +7,24 @@
 #include <time.h>
 #include <math.h>
 
-#define MAX_POP 200
-#define MUT_PROB 40
+#define MAX_POP 100
+#define MUT_PROB 5
+#define MAX_ITER 200
 
 int main()
 {
-	int i,j,j_best;
+	int j,j_best;
     	long long populacja[MAX_POP],global_best;
     	float roulette_val[MAX_POP],fitness_val[MAX_POP],fitness_sum,fitness_sum_best=1000.0;
     	srand(time(NULL));
 	init_population(populacja,MAX_POP);
 	global_best = populacja[0];
-
-	for(j=0, j_best=0 ; j<200 && (j<=j_best+100) ; ++j)
+	
+	for(j=0, j_best=0 ; j<MAX_ITER ; ++j)
 	{
 	    	roulette(populacja,roulette_val,MAX_POP);
 
-		new_population(populacja,roulette_val,MAX_POP,5); //may be parallelised
+		new_population(populacja,roulette_val,MAX_POP,MUT_PROB); //may be parallelised
 		fitness(populacja,fitness_val,MAX_POP);
 
 		global_best=printPopulation(populacja,fitness_val,MAX_POP,j+1,global_best);
@@ -36,9 +37,6 @@ int main()
 		}
 
 	}
-
-
-	
 
 
     	return 0;

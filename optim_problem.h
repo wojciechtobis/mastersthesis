@@ -1,6 +1,8 @@
 #ifndef optim_problem_h
 #define optim_problem_h
 
+
+
 #define SHORT_BITS 16
 #define LONG_LONG_BITS 64
 #define PROC_BITS 32

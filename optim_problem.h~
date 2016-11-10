@@ -1,6 +1,8 @@
 #ifndef optim_problem_h
 #define optim_problem_h
 
+#include "simulation.h"
+
 #define SHORT_BITS 16
 #define LONG_LONG_BITS 64
 #define PROC_BITS 32
@@ -12,8 +14,8 @@
 
 
 float fitness_func(long long x);
-long long code(short x, short y);
-void decode(long long code, short * x, short * y);
-void init_population(long long population[], int size, int population_number);
+long long code(unsigned short x, unsigned short y);
+void decode(long long code, unsigned short * x, unsigned short * y);
+void init_population(long long population[], int size);
 
 #endif

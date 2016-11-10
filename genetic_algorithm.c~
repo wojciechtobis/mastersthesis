@@ -60,19 +60,14 @@ void roulette(long long population[], float roulette_agg[], int size)
 
 	for(i=0 ; i<size ; ++i)
     	{
-        	/*sum += fitness_val[i];
+        	sum += fitness_val[i];
 		if(sum==INFINITY || sum==NAN)
-			sum = FLT_MAX;*/
-		if(fitness_val[i]!=FLT_MAX)
-			sum += fitness_val[i];
+			sum = FLT_MAX;
     	}
    
     	for(i=0 ; i<size ; ++i)
     	{
-		if(fitness_val[i]!=FLT_MAX)
-        		roulette_val[i] = sum/fitness_val[i];
-		else
-			roulette_val[i] = 0;
+        	roulette_val[i] = sum/fitness_val[i];
     	}
    
     	for(i=0 ; i<size ; ++i)
