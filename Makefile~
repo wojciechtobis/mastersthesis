@@ -6,9 +6,9 @@ LOADER = gcc
 
 # opcje optymalizacji:
 # wersja do debugowania
-OPT = -g -DDEBUG -Wall
+#OPT = -g -DDEBUG -Wall -fopenmp
 # wersja zoptymalizowana do mierzenia czasu
-# OPT = -O3
+ OPT = -O3 -fopenmp
 
 # pliki naglowkowe
 INC = 
@@ -17,10 +17,10 @@ INC =
 LIB = -lm
 
 # zaleznosci i komendy
-main2: main.o genetic_algorithm.o optim_problem2.o report.o simulation.o
+main2: main.o genetic_algorithm.o optim_problem2.o report.o 
 	$(LOADER) $(OPT) main.o genetic_algorithm.o optim_problem2.o report.o -o main $(LIB)
 
-main1: main.o genetic_algorithm.o optim_problem.o report.o 
+main1: main.o genetic_algorithm.o optim_problem.o report.o simulation.o
 	$(LOADER) $(OPT) main.o genetic_algorithm.o optim_problem.o report.o simulation.o -o main $(LIB)
 
 main.o: main.c

@@ -7,8 +7,6 @@
 
 float fitness_func(long long x)
 {
-	
-
 	short k1,k2;
 	float k_1,k_2,result;
 	

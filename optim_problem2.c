@@ -14,6 +14,11 @@ float fitness_func(long long x)
 	x_1 = (1.0*(unsigned short)x1/(1 << (SHORT_BITS)))*(X_MAX-X_MIN) + X_MIN;
 	y_1 = (1.0*(unsigned short)y1/(1 << (SHORT_BITS-1)))*(Y_MAX-Y_MIN) + Y_MIN;
 	
+	int i;
+	float j;
+	for(i=0;i<100;++i)
+		j = sin(i);
+	
 	return (x_1-5.3)*(x_1-5.3) + (y_1-5.8)*(y_1-5.8);
 }
 

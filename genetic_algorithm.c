@@ -1,5 +1,6 @@
 #include "genetic_algorithm.h"
 #include "optim_problem.h"
+#include "simulation.h"
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
@@ -42,12 +43,11 @@ void aggregation(float table[], float aggredated[], int size)
 void fitness(long long population[], float fitness_val[], int size)
 {
 	int i;
-
+	//#pragma omp parallel for default(none) shared(fitness_val,population,size) private(i)
 	for(i=0 ; i<size ; ++i)
     	{
         	fitness_val[i] = fitness_func(population[i]);
     	}
-
 }
 
 void roulette(long long population[], float roulette_agg[], int size)
