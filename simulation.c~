@@ -171,7 +171,7 @@ void RK4_PID(State x[], float u[], float* t, float dtau[], int n[], int cn[], St
 
 }
 
-void RK4_LQR(State x[], float u[], float* t, float dtau[], int n[], int cn[], State x_zad, ControllerLQR LQR)
+void RK4_LQR(State x[], float u[], float t[], float dtau[], int n[], int cn[], State x_zad, ControllerLQR LQR)
 {
 	int i,j;
 	float h,h2,h3,h6;
@@ -252,6 +252,8 @@ float fit_func(State x[], float u[], State x_zad, int x_size, int u_size)
 	for(i=0 ; i<u_size ; ++i)
 	{
 		sum = sum + u[i]*u[i];
+		if(sum==INFINITY || sum==NAN)
+			return FLT_MAX;
 	}
 
 	return sum;

@@ -7,7 +7,7 @@
 #include <time.h>
 #include <math.h>
 
-#define MAX_POP 1000
+#define MAX_POP 100
 #define MUT_PROB 50
 #define MAX_ITER 200
 

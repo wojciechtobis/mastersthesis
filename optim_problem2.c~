@@ -16,7 +16,7 @@ float fitness_func(long long x)
 	
 	int i;
 	float j;
-	for(i=0;i<1000;++i)
+	for(i=0;i<100;++i)
 		j = sin(i);
 	
 	return (x_1-5.3)*(x_1-5.3) + (y_1-5.8)*(y_1-5.8);
