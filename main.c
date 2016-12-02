@@ -30,8 +30,8 @@ int main()
 		new_population(populacja,roulette_val,MAX_POP,MUT_PROB); //may be parallelised
 		fitness(populacja,fitness_val,MAX_POP);
 
-		//global_best=printPopulation(populacja,fitness_val,MAX_POP,j+1,global_best);
-		global_best = getBest(populacja,fitness_val,MAX_POP,j+1,global_best);
+		global_best=printPopulation(populacja,fitness_val,MAX_POP,j+1,global_best);
+		//global_best = getBest(populacja,fitness_val,MAX_POP,j+1,global_best);
 		fitness_sum = 0;
 		if(fitness_sum_best>fitness_sum)
 		{

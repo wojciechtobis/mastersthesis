@@ -43,11 +43,45 @@ void aggregation(float table[], float aggredated[], int size)
 void fitness(long long population[], float fitness_val[], int size)
 {
 	int i;
-	#pragma omp parallel for default(none) shared(fitness_val,population,size) private(i)
+
+	//version for sequential and OpenMP
+	/*#pragma omp parallel for default(none) shared(fitness_val,population,size) private(i)
 	for(i=0 ; i<size ; ++i)
     	{
         	fitness_val[i] = fitness_func(population[i]);
-    	}
+    	}*/
+
+	//version for MPI and XC
+	int procsses = 4;
+	int new_size = size/processes;	
+	long long pop1[new_size],pop2[new_size],pop3[new_size],pop4[new_size];
+	float pop1_fit[new_size],pop2_fit[new_size],pop3_fit[new_size],pop4_fit[new_size];
+
+	for(i=0 ; i<new_size ; ++i)
+	{
+		pop1[i] = population[i];
+		pop2[i] = population[new_size+i];
+		pop3[i] = population[2*new_size+i];
+		pop4[i] = population[3*new_size+i];
+	}
+
+	// may by parallelized
+	for(i=0 ; i<new_size ; ++i)
+	{
+		pop1_fit[i] = fitness_func(pop1[i]);
+		pop2_fit[i] = fitness_func(pop2[i]);
+		pop3_fit[i] = fitness_func(pop3[i]);
+		pop4_fit[i] = fitness_func(pop4[i]);
+	}
+
+	for(i=0 ; i<new_size ; ++i)
+	{
+		fitness_val[i] = pop1_fit[i];
+		fitness_val[new_size+i] = pop2_fit[i];
+		fitness_val[2*new_size+i] = pop3_fit[i];
+		fitness_val[3*new_size+i] = pop4_fit[i];
+	}
+	
 }
 
 void roulette(long long population[], float roulette_agg[], int size)
