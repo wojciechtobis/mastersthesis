@@ -43,7 +43,7 @@ void aggregation(float table[], float aggredated[], int size)
 void fitness(long long population[], float fitness_val[], int size)
 {
 	int i;
-	#pragma omp parallel for default(none) shared(fitness_val,population,size) private(i)
+	//#pragma omp parallel for default(none) shared(fitness_val,population,size) private(i)
 	for(i=0 ; i<size ; ++i)
     	{
         	fitness_val[i] = fitness_func(population[i]);
